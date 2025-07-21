@@ -7,7 +7,7 @@ const axios = require('axios');
 axios.get('http://192.168.196.235:3077/logs/endpoint', {
     auth: {
         username: 'admin',
-        password: 'admin123' // <- ganti dengan yang sesuai
+        password: 'admin123' 
     }
 })
 .then(res => console.log(res.data))
@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
     });
 });
 
-// Polling ke API eksternal (192.168.196.235)
+// Polling ke API eksternal 
 const apiURL = 'http://192.168.196.235:3077/logs/endpoint';
 
 setInterval(async () => {
@@ -49,10 +49,19 @@ setInterval(async () => {
 
         console.log('RESPON MENTAH:', res.data);
         
-        const filtered = res.data.map(item => ({
-    endpoint: item.endpoint,
-    status: item.status
-}));
+        const seen = new Set();
+const filtered = [];
+
+res.data.forEach(item => {
+    if (!seen.has(item.endpoint)) {
+        seen.add(item.endpoint);
+        filtered.push({
+            endpoint: item.endpoint,
+            status: item.status
+        });
+    }
+});
+
 io.emit('device-status', filtered);
 console.log('Data disederhanakan dikirim ke client:', filtered);
 
