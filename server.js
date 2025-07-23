@@ -57,7 +57,8 @@ res.data.forEach(item => {
         seen.add(item.endpoint);
         filtered.push({
             endpoint: item.endpoint,
-            status: item.status
+            status: item.status,
+            timestamp: item.timestamp
         });
     }
 });
@@ -69,7 +70,7 @@ console.log('Data disederhanakan dikirim ke client:', filtered);
     } catch (error) {
         console.error('Gagal ambil data:', error.response?.status, error.message);
     }
-}, 10000);
+}, 3000);
 
 // Start server
 server.listen(PORT, () => {
