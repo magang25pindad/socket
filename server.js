@@ -81,10 +81,11 @@ const pollInterval = setInterval(async () => {
                 
                 // Ensure all required fields exist
                 const processedItem = {
-                    endpoint: item.endpoint || 'unknown',
+                    endpoint: item.endpoint.replace(/^Endpoint\s*/i, '') || 'unknown',
                     status: item.status || 'offline',
                     timestamp: item.timestamp || new Date().toISOString()
                 };
+
                 
                 filtered.push(processedItem);
                 console.log(`Processed: ${processedItem.endpoint} -> ${processedItem.status}`);
